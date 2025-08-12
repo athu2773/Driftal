@@ -24,9 +24,15 @@ export default function EmployeeTable({ employees }) {
               <td className="px-4 py-2">{emp.role}</td>
               <td className="px-4 py-2">{emp.email}</td>
               <td className="px-4 py-2">
-                <span className={emp.assessment_submitted ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}>
-                  {emp.assessment_submitted ? 'Submitted' : 'Not Submitted'}
-                </span>
+                {emp.status ? (
+                  <span className="font-semibold">
+                    {emp.status}
+                  </span>
+                ) : (
+                  <span className={emp.assessment_submitted ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}>
+                    {emp.assessment_submitted ? 'Submitted' : 'Not Submitted'}
+                  </span>
+                )}
               </td>
               <td className="px-4 py-2">{emp.tags ? emp.tags.join(', ') : ''}</td>
               <td className="px-4 py-2">

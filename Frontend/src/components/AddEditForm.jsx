@@ -7,9 +7,11 @@ const initial = {
   tags: [],
 };
 
+
 export default function AddEditForm({ onSuccess }) {
   const [form, setForm] = useState(initial);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = e => {
     const { name, value, checked } = e.target;
@@ -25,15 +27,25 @@ export default function AddEditForm({ onSuccess }) {
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
-    await addEmployee(form);
-    setForm(initial);
+    setError("");
+    try {
+      const res = await addEmployee(form);
+      if (res && res.error) {
+        setError(res.error);
+      } else {
+        setForm(initial);
+        onSuccess();
+      }
+    } catch (err) {
+      setError("An unexpected error occurred.",err);
+    }
     setLoading(false);
-    onSuccess();
   };
 
   return (
     <form onSubmit={handleSubmit} className="my-6 border border-gray-200 rounded-lg p-4 bg-white shadow">
       <h3 className="text-lg font-semibold mb-2">Add Employee</h3>
+      {error && <div className="text-red-600 mb-2">{error}</div>}
       <div className="flex flex-wrap gap-2 mb-2">
         <input name="name" value={form.name} onChange={handleChange} placeholder="Name" required className="input input-bordered w-40" />
         <input name="email" value={form.email} onChange={handleChange} placeholder="Email" required className="input input-bordered w-40" />

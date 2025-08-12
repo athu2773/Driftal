@@ -12,8 +12,21 @@ export default function Dashboard() {
   const [sort, setSort] = useState({ field: 'name', order: 'asc' });
 
   useEffect(() => {
-    fetchEmployees({ ...filters, search, sort: `${sort.field}:${sort.order}` })
-      .then(res => setEmployees(res.data ? res.data.data : []));
+      const filterKeyMap = {
+        assessment_submitted: 'assessmentSubmitted',
+        role: 'role',
+        interest: 'interestArea',
+        goal: 'longTermGoal',
+        culture: 'workCulture',
+        learning: 'learningAttitude',
+      };
+
+      const mappedFilters = Object.fromEntries(
+        Object.entries(filters).map(([k, v]) => [filterKeyMap[k] || k, v])
+      );
+
+      fetchEmployees({ ...mappedFilters, search, sort: `${sort.field}:${sort.order}` })
+        .then(res => setEmployees(res.data || []));
   }, [filters, reload, search, sort]);
 
   return (

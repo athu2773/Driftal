@@ -21,7 +21,7 @@ const sample = async () => {
     const name = `Employee ${i}`;
     const email = `employee${i}@example.com`;
     const role = roles[i % roles.length];
-    const submitted = i % 3 !== 0; // some not submitted
+    const submitted = i % 3 !== 0; 
     const tags = [];
     if (i % 2 === 0) tags.push('AI Enthusiast');
     if (i % 5 === 0) tags.push('Entrepreneurial');

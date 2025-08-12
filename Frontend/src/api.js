@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://driftal.onrender.com/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://driftal.onrender.com/api";
 
 export async function fetchEmployees(params = {}) {
   const query = new URLSearchParams(params).toString();
